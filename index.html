@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎮 Who Did What? - AI Prompt Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Screen 1: Game Introduction -->
+    <div id="screen-intro" class="screen active">
+        <div class="container">
+            <h1 class="game-title">🧠 Who Did What? – Understanding AI by Actions</h1>
+            <p class="subtitle">One prompt. Four AI responses. Only one correct answer.</p>
+            
+            <div class="intro-box">
+                <p class="intro-text">
+                    "Different AI systems behave very differently.<br>
+                    Some search, some predict, some imagine, some act.<br>
+                    Let's see if you can spot which is which."
+                </p>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="showScreen('screen-rules')">▶️ Start Game</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen 2: How to Play -->
+    <div id="screen-rules" class="screen">
+        <div class="container">
+            <h2>📋 How to Play</h2>
+            
+            <div class="rules-cards">
+                <div class="rule-card">
+                    <div class="rule-number">1</div>
+                    <p>You'll see one user prompt</p>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-number">2</div>
+                    <p>Four AI responses will appear</p>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-number">3</div>
+                    <p>Each response comes from a different type of AI</p>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-number">4</div>
+                    <p>A question will ask you to identify which bot did something specific</p>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-number">5</div>
+                    <p>Select your answer</p>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-number">6</div>
+                    <p>Get instant feedback + explanation</p>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" onclick="startGame()">➡️ Start Round 1</button>
+        </div>
+    </div>
+
+    <!-- Screen 3: Prompt Display -->
+    <div id="screen-prompt" class="screen">
+        <div class="container">
+            <div class="progress-bar">
+                <span id="progress-text">Round <span id="current-round">1</span> / 10</span>
+                <span id="score-text">Score: <span id="score">0</span>/10 ⭐</span>
+            </div>
+            
+            <div class="prompt-card">
+                <div class="prompt-icon">🧑</div>
+                <h3>User Prompt:</h3>
+                <p id="user-prompt" class="prompt-text"></p>
+            </div>
+            
+            <p class="hint-text">"Four different AI systems responded to this same prompt."</p>
+            
+            <button class="btn btn-primary" onclick="showResponses()">⬇️ See AI Responses</button>
+        </div>
+    </div>
+
+    <!-- Screen 4: AI Responses -->
+    <div id="screen-responses" class="screen">
+        <div class="container">
+            <div class="progress-bar">
+                <span id="progress-text-2">Round <span id="current-round-2">1</span> / 10</span>
+                <span id="score-text-2">Score: <span id="score-2">0</span>/10 ⭐</span>
+            </div>
+            
+            <div class="prompt-card-small">
+                <div class="prompt-icon-small">🧑</div>
+                <p id="user-prompt-2" class="prompt-text-small"></p>
+            </div>
+            
+            <h3 class="section-title">Click on each AI card to see their response</h3>
+            
+            <div class="responses-grid">
+                <div class="response-card" data-type="search" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="bot-icon">🔍</div>
+                            <div class="bot-name">Search Bot</div>
+                        </div>
+                        <div class="card-back">
+                            <div class="response-tag">🔍 Search Bot</div>
+                            <p id="response-search" class="response-text"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="response-card" data-type="think" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="bot-icon">🧠</div>
+                            <div class="bot-name">Think Bot</div>
+                        </div>
+                        <div class="card-back">
+                            <div class="response-tag">🧠 Traditional AI / Think Bot</div>
+                            <p id="response-think" class="response-text"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="response-card" data-type="gen" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="bot-icon">✨</div>
+                            <div class="bot-name">Gen AI</div>
+                        </div>
+                        <div class="card-back">
+                            <div class="response-tag">✨ Gen AI</div>
+                            <p id="response-gen" class="response-text"></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="response-card" data-type="do" onclick="flipCard(this)">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <div class="bot-icon">⚙️</div>
+                            <div class="bot-name">Agentic AI</div>
+                        </div>
+                        <div class="card-back">
+                            <div class="response-tag">⚙️ Do Bot / Agentic AI</div>
+                            <p id="response-do" class="response-text"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" onclick="showQuestion()">➡️ Answer the Question</button>
+        </div>
+    </div>
+
+    <!-- Screen 5: Question Screen -->
+    <div id="screen-question" class="screen">
+        <div class="container">
+            <div class="progress-bar">
+                <span id="progress-text-3">Round <span id="current-round-3">1</span> / 10</span>
+                <span id="score-text-3">Score: <span id="score-3">0</span>/10 ⭐</span>
+            </div>
+            
+            <div class="prompt-card-small">
+                <div class="prompt-icon-small">🧑</div>
+                <p id="user-prompt-3" class="prompt-text-small"></p>
+            </div>
+            
+            <div class="question-card">
+                <h3>❓ <span id="question-text"></span></h3>
+            </div>
+            
+            <div class="options-grid">
+                <button class="option-btn" onclick="selectAnswer('Search Bot')">
+                    <span class="option-icon">🔍</span>
+                    <span>Search Bot</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer('Traditional AI / Think Bot')">
+                    <span class="option-icon">🧠</span>
+                    <span>Traditional AI / Think Bot</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer('Gen AI')">
+                    <span class="option-icon">✨</span>
+                    <span>Gen AI</span>
+                </button>
+                <button class="option-btn" onclick="selectAnswer('Do Bot / Agentic AI')">
+                    <span class="option-icon">⚙️</span>
+                    <span>Do Bot / Agentic AI</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen 6: Feedback Screen -->
+    <div id="screen-feedback" class="screen">
+        <div class="container">
+            <div class="feedback-card" id="feedback-card">
+                <div id="feedback-icon" class="feedback-icon"></div>
+                <h2 id="feedback-title"></h2>
+                <p id="feedback-message" class="feedback-message"></p>
+                
+                <div class="highlighted-response" id="highlighted-response"></div>
+            </div>
+            
+            <div id="feedback-buttons">
+                <button class="btn btn-primary" id="learn-more-btn" onclick="showLearning()" style="display: none;">➡️ Learn More</button>
+                <button class="btn btn-primary" id="next-round-btn" onclick="nextRound()" style="display: none;">➡️ Next Round</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Screen 7: Learning Breakdown -->
+    <div id="screen-learning" class="screen">
+        <div class="container">
+            <h2>📚 Understanding AI Types</h2>
+            
+            <div class="learning-table">
+                <div class="learning-row learning-header">
+                    <div class="learning-cell">Bot Type</div>
+                    <div class="learning-cell">What It Does</div>
+                </div>
+                <div class="learning-row">
+                    <div class="learning-cell"><span class="bot-icon">🔍</span> Search Bot</div>
+                    <div class="learning-cell">Finds existing information</div>
+                </div>
+                <div class="learning-row">
+                    <div class="learning-cell"><span class="bot-icon">🧠</span> Think Bot</div>
+                    <div class="learning-cell">Predicts or reasons from past data</div>
+                </div>
+                <div class="learning-row">
+                    <div class="learning-cell"><span class="bot-icon">✨</span> Gen AI</div>
+                    <div class="learning-cell">Creates new content</div>
+                </div>
+                <div class="learning-row">
+                    <div class="learning-cell"><span class="bot-icon">⚙️</span> Do Bot</div>
+                    <div class="learning-cell">Takes actions in real systems</div>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary" onclick="nextRound()">➡️ Next Round</button>
+        </div>
+    </div>
+
+    <!-- Screen 8: Final Summary -->
+    <div id="screen-summary" class="screen">
+        <div class="container">
+            <h1 class="summary-title">🎉 You've Cracked AI Behavior!</h1>
+            
+            <div class="final-score">
+                <h2>Your Score: <span id="final-score">0</span>/10</h2>
+                <div id="score-stars"></div>
+                <p id="score-message"></p>
+            </div>
+            
+            <div class="learning-summary">
+                <h3>What You Learned:</h3>
+                <div class="summary-items">
+                    <div class="summary-item">🔍 Search Bots → retrieve</div>
+                    <div class="summary-item">🧠 Think Bots → predict</div>
+                    <div class="summary-item">✨ Gen AI → create</div>
+                    <div class="summary-item">⚙️ Do Bots → act</div>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-primary" onclick="restartGame()">🔁 Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
