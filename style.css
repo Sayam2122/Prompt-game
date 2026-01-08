@@ -255,7 +255,8 @@ h2 {
 
 .response-card {
     flex: 1;
-    min-width: 200px;
+    min-width: 220px;
+    max-width: 300px;
     height: 300px;
     perspective: 1000px;
     cursor: pointer;
@@ -562,6 +563,18 @@ h2 {
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+    .responses-grid {
+        justify-content: center;
+    }
+    
+    .response-card {
+        flex: 0 1 calc(50% - 10px);
+        min-width: 180px;
+        max-width: 250px;
+    }
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 25px;
@@ -577,10 +590,35 @@ h2 {
     
     .responses-grid {
         flex-direction: column;
+        align-items: center;
     }
     
     .response-card {
         min-width: 100%;
+        max-width: 100%;
+        height: 280px;
+        flex: none;
+    }
+    
+    .card-front, .card-back {
+        padding: 20px;
+    }
+    
+    .card-front .bot-icon {
+        font-size: 3em;
+        margin-bottom: 15px;
+    }
+    
+    .card-front .bot-name {
+        font-size: 1.2em;
+    }
+    
+    .card-back .response-tag {
+        font-size: 1.1em;
+    }
+    
+    .card-back .response-text {
+        font-size: 0.95em;
     }
     
     .options-grid {
@@ -593,5 +631,45 @@ h2 {
     
     .summary-items {
         grid-template-columns: 1fr;
+    }
+    
+    .prompt-card-small {
+        flex-direction: column;
+        padding: 15px 20px;
+    }
+    
+    .prompt-text-small {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+    
+    .game-title {
+        font-size: 1.5em;
+    }
+    
+    .response-card {
+        height: 250px;
+    }
+    
+    .card-front .bot-icon {
+        font-size: 2.5em;
+    }
+    
+    .card-front .bot-name {
+        font-size: 1.1em;
+    }
+    
+    .option-btn {
+        padding: 20px 15px;
+    }
+    
+    .btn {
+        padding: 12px 24px;
+        font-size: 1em;
     }
 }
